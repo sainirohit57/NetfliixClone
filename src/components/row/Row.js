@@ -4,7 +4,7 @@ import YouTube from "react-youtube";
 import movieTrailer from "movie-trailer";
 import "./Row.css";
 import { Link } from "react-router-dom";
-import Product from "../../pages/Product";
+// import Product from "../../pages/Product";
 
 const base_url = "https://image.tmdb.org/t/p/original/";
 
@@ -46,10 +46,10 @@ function Row({ title, fetchUrl, isLargeRow }) {
     // }
     setPlay(0);
   };
-  const handleMouseLeave = () => {
-    setTrailerUrl("");
-    // setPlay(0);
-  };
+  // const handleMouseLeave = () => {
+  //   setTrailerUrl("");
+  //   // setPlay(0);
+  // };
 
   return (
     <div className="row">
