@@ -1,17 +1,15 @@
 import axios from "../../axios";
-import React, { useState, useEffect } from "react";
-import YouTube from "react-youtube";
-import movieTrailer from "movie-trailer";
+import React, { useState, useEffect, useRef } from "react";
 import "./Row.css";
 import { Link } from "react-router-dom";
-// import Product from "../../pages/Product";
 
 const base_url = "https://image.tmdb.org/t/p/original/";
 
 function Row({ title, fetchUrl, isLargeRow }) {
   const [movies, setMovies] = useState([]);
-  const [trailerUrl, setTrailerUrl] = useState("");
-  const [play, setPlay] = useState(0);
+
+  const ref = useRef(null);
+  const { onClickOutside } = "";
 
   useEffect(() => {
     async function fetchData() {
@@ -23,44 +21,26 @@ function Row({ title, fetchUrl, isLargeRow }) {
     fetchData();
   }, [fetchUrl]);
 
-  const opts = {
-    height: "390",
-    width: "100%",
-    playerVars: {
-      // https://developers.google.com/youtube/player_parameters
-      autoplay: 1,
-      mute: play,
-    },
-  };
-
-  const handleMouseEnter = (movie) => {
-    // if (trailerUrl) {
-    //   setTrailerUrl("");
-    // } else {
-    movieTrailer(movie?.title || movie?.name)
-      .then((url) => {
-        const urlParams = new URLSearchParams(new URL(url).search);
-        setTrailerUrl(urlParams.get("v"));
-      })
-      .catch((error) => console.log(error));
-    // }
-    setPlay(0);
-  };
-  // const handleMouseLeave = () => {
-  //   setTrailerUrl("");
-  //   // setPlay(0);
-  // };
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (ref.current && !ref.current.contains(event.target)) {
+        onClickOutside && onClickOutside();
+      }
+    };
+    document.addEventListener("click", handleClickOutside, true);
+    return () => {
+      document.removeEventListener("click", handleClickOutside, true);
+    };
+  }, [onClickOutside]);
 
   return (
     <div className="row">
       <h2>{title}</h2>
-      <div className="row__posters">
+      <div className="row__posters" ref={ref}>
         {movies.map((movie) => (
           <Link className="row__poster__link" to={"/product"}>
             <img
               key={movie.id}
-              onMouseEnter={() => handleMouseEnter(movie)}
-              onMouseLeave={() => handleMouseLeave(movie)}
               className={`row__poster ${isLargeRow && "row__posterLarge"}`}
               src={`${base_url}${
                 isLargeRow ? movie.poster_path : movie.backdrop_path
@@ -70,8 +50,6 @@ function Row({ title, fetchUrl, isLargeRow }) {
           </Link>
         ))}
       </div>
-
-      {trailerUrl && <YouTube videoId={trailerUrl} opts={opts} />}
     </div>
   );
 }

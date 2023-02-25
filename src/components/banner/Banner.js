@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../axios";
 import requests from "../../requests";
-import "./Banner.css";
 import YouTube from "react-youtube";
 import movieTrailer from "movie-trailer";
 
@@ -31,30 +30,19 @@ function Banner() {
     height: "448px",
     width: "100%",
     playerVars: {
-      // https://developers.google.com/youtube/player_parameters
       autoplay: 1,
       mute: play,
     },
   };
 
   const handleClick = (movie) => {
-    // if (trailerUrl) {
-    //   setTrailerUrl("");
-    // } else {
     movieTrailer(movie?.title || movie?.name)
       .then((url) => {
         const urlParams = new URLSearchParams(new URL(url).search);
         setTrailerUrl(urlParams.get("v"));
-        console.log(trailerUrl, " trailerUrl");
       })
       .catch((error) => console.log(error));
-    // }
     setPlay(1);
-    console.log(setPlay, "setPlay");
-  };
-  const handleMouseLeave = () => {
-    setTrailerUrl("");
-    // setPlay(0);
   };
 
   return (

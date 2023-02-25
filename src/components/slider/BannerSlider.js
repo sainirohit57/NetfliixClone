@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from "react";
 import axios from "../../axios";
 import BtnSlider from "./BtnSlider";
-import dataSlider from "./dataSlider";
 import requests from "../../requests";
 import "./BannerSlider.css";
-import "../banner/Banner.css";
+import { Link } from "react-router-dom";
 
 function BannerSlider() {
   const [movie, setMovie] = useState([]);
   const [slideIndex, setSlideIndex] = useState(1);
 
   const nextSlide = () => {
-    if (slideIndex !== dataSlider.length) {
+    if (slideIndex !== 7) {
       setSlideIndex(slideIndex + 1);
-    } else if (slideIndex === dataSlider.length) {
+    } else if (slideIndex === 7) {
       setSlideIndex(1);
     }
   };
@@ -22,7 +21,7 @@ function BannerSlider() {
     if (slideIndex !== 1) {
       setSlideIndex(slideIndex - 1);
     } else if (slideIndex === 1) {
-      setSlideIndex(dataSlider.length);
+      setSlideIndex(7);
     }
   };
 
@@ -32,7 +31,7 @@ function BannerSlider() {
 
   useEffect(() => {
     async function fetchData() {
-      const request = await axios.get(requests.fetchNetflixOriginal);
+      const request = await axios.get(requests.fetchTrending);
       setMovie(request.data.results);
       return request;
     }
@@ -66,7 +65,9 @@ function BannerSlider() {
                 {item?.title || item?.name || item?.original_name}
               </h1>
               <div className="banner__buttons">
-                <button className="banner__button">Watch Trailer</button>
+                <Link className="row__poster__link" to={"/product"}>
+                  <button className="banner__button">Watch Trailer</button>
+                </Link>
               </div>
 
               <h1 className="banner__description">

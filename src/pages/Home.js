@@ -9,11 +9,16 @@ function Home() {
       <BannerSlider />
       <Row
         title="NETFLIX ORIGINALS"
-        fetchUrl={requests.fetchTrending}
+        fetchUrl={requests.fetchNetflixOriginal}
         isLargeRow
       />
-      {/* <Row title="Trending Now" fetchUrl={requests.fetchNetflixOriginal} /> */}
-      {/* <Row title="NETFLIX ORIGINALS" fetchUrl={requests.primaryReleaseDate} /> */}
+      <Row title="TRENDING NOW" fetchUrl={requests.fetchTrending} />
+      <Row title="TOP RATED" fetchUrl={requests.fetchTopRated} />
+      <Row title="ACTION MOVIES" fetchUrl={requests.fetchActionMovies} />
+      <Row title="COMEDY MOVIES" fetchUrl={requests.fetchComedyMovies} />
+      <Row title="HORROR MOVIES" fetchUrl={requests.fetchHorrorMovies} />
+      <Row title="ROMANTIC MOVIES" fetchUrl={requests.fetchRomanceMovies} />
+      <Row title="DOCUMENTARY MOVIES" fetchUrl={requests.fetchDocumentaries} />
     </div>
   );
 }
